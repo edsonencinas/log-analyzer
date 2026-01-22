@@ -1,3 +1,4 @@
+from datetime import datetime
 import re
 
 LOG_PATTERN = re.compile(
@@ -11,9 +12,13 @@ def parse_auth_log(line):
     match = LOG_PATTERN.search(line)
     if not match:
         return None
+    
+    # Convert timestamp sting -> datetime
+    timestamp_str = match.group("timestamp")
+    timestamp = datetime.strptime(timestamp_str, "%b %d %H:%M:%S")
 
     return {
-        "timestamp": match.group("timestamp"),
+        "timestamp": timestamp,
         "user": match.group("user"),
         "ip": match.group("ip"),
         "status": "failed" if "Failed password" in line else "success"
