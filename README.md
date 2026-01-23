@@ -6,14 +6,14 @@ Designed as a **blue-team / SOC-style detection engine** with risk scoring, aler
 ## Features
 ### Detection Capabilities
 
-- Brute-force detection (X failures in Y minutes)
-- Account lockout risk detection
-- Successful login after failures (credential compromise)
-- IP change between failures and success
-- Time-window correlation
-- Alert deduplication & cooldowns
+- **Brute-force detection** (X failures in Y minutes)
+- **Account lockout risk detection**
+- **Successful login after failures** (credential compromise)
+- **IP change between failures and success**
+- **Time-window correlation**
+- **Alert deduplication & cooldowns**
 
-## Risk Scoring Engine
+### Risk Scoring Engine
 
 - Aggregates multiple detections
 - Assigns weighted risk scores
@@ -25,14 +25,14 @@ Designed as a **blue-team / SOC-style detection engine** with risk scoring, aler
 
 ### MITRE ATT&CK Mapping
 Each alert is tagged with relevant MITRE techniques:
-- T1110 – Brute Force
-- T1110.001 – Password Guessing
-- T1078 – Valid Accounts
-- T1021 – Remote Services
+- `T1110` – Brute Force
+- `T1110.001` – Password Guessing
+- `T1078` – Valid Accounts
+- `T1021` – Remote Services
 
-## Output & Reporting
+### Output & Reporting
 - Console alerts
-- JSON export for SIEM ingestion
+- **JSON** export for SIEM ingestion
 - Clean, structured event normalization
 
 ## Project Structure
@@ -90,29 +90,8 @@ Alert Deduplication & Cooldowns
    └── JSON Export (SIEM-ready)
 ```
 
-## Mermaid Architecture Diagram (GitHub-Rendered)
-```
-flowchart TD
-    A[auth.log] --> B[Auth Log Parser]
-    B --> C[Normalized Events]
-
-    C --> D1[Brute Force Detector]
-    C --> D2[Account Lockout Detector]
-    C --> D3[Credential Compromise Detector]
-    C --> D4[IP Change Detector]
-
-    D1 --> E[Risk Scoring Engine]
-    D2 --> E
-    D3 --> E
-    D4 --> E
-
-    E --> F[Alert Deduplication & Cooldowns]
-
-    F --> G[Console Alerts]
-    F --> H[JSON Export]
-```
-
 ## Sample Output
+```
 === RISK SUMMARY ===
 Entity: 192.168.1.50
 Risk Score: 30
@@ -128,11 +107,12 @@ Detections:
  - Possible Credential Compromise (+60)
  - Credential Compromise (IP Change) (+80)
 ----------------------------------------
+```
 
 ## Technologies Used
 
-- Python 3
-- Regular Expressions (re)
+- **Python 3**
+- Regular Expressions (`re`)
 - Datetime with timezone awareness
 - JSON for structured export
 - MITRE ATT&CK Framework
@@ -153,6 +133,6 @@ Detections:
 
 🧑‍💻 Author
 
-Edison Encinas
+**Edison Encinas**
 Cybersecurity Enthusiast | Blue Team 
 (Project built for learning, portfolio, and skill demonstration purposes)
