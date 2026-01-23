@@ -1,0 +1,32 @@
+[
+    {
+        "entity": "192.168.1.50",
+        "risk_score": 30,
+        "risk_level": "LOW",
+        "detections": [
+            {
+                "type": "Brute Force Attack",
+                "score": 30
+            }
+        ]
+    },
+    {
+        "entity": "admin",
+        "risk_score": 180,
+        "risk_level": "CRITICAL",
+        "detections": [
+            {
+                "type": "Account Lockout Risk",
+                "score": 40
+            },
+            {
+                "type": "Possible Credential Compromise",
+                "score": 60
+            },
+            {
+                "type": "Credential Compromise (IP Change)",
+                "score": 80
+            }
+        ]
+    }
+]

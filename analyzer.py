@@ -3,6 +3,8 @@ from detectors.brute_force import detect_brute_force
 from detectors.account_lockout import detect_account_lockout
 from detectors.credential_compromise import detect_credential_compromise
 from detectors.ip_change_after_failures import detect_ip_change_after_failures
+from detectors.risk_engine import calculate_risk
+from utils.json_exporter import export_to_json
 
 
 def read_log(file_path):
@@ -19,16 +21,29 @@ def main():
         if event:
             events.append(event)
 
+    export_to_json(events, "output/events.json")
+
     alerts_bruteforce = detect_brute_force(events)
     alerts_lockout = detect_account_lockout(events)
     alerts_compromise = detect_credential_compromise(events)
     alerts_ip_change = detect_ip_change_after_failures(events)
-    # for testing pupose only to be deleted later on ----------------------
-    print(alerts_bruteforce)
-    print(alerts_lockout)
-    print(alerts_compromise)
-    print(alerts_ip_change)
-    # ----------------------------------------------------------------------
+
+    all_alerts = []
+    all_alerts.extend(alerts_bruteforce)
+    all_alerts.extend(alerts_lockout)
+    all_alerts.extend(alerts_compromise)
+    all_alerts.extend(alerts_ip_change)
+
+    export_to_json(all_alerts, "output/alerts.json")
+
+    risk_results = calculate_risk(all_alerts)
+
+    export_to_json(risk_results, "output/risk_summary.json")
+
+    # Console output
+    for r in risk_results:
+        print(f"{r['entity']} → {r['risk_level']} ({r['risk_score']})")
+
     for alert in alerts_bruteforce:
         print("ALERT DETECTED")
         print(f"Type: {alert['type']}")
@@ -59,6 +74,16 @@ def main():
         print(f"Failure IPs: {', '.join(alert['failure_ips'])}")
         print(f"Success IP: {alert['success_ip']}")
         print(f"Severity: {alert['severity']}")
+        print("-" * 40)
+
+    print("\n=== RISK SUMMARY ===")
+    for r in risk_results:
+        print(f"Entity: {r['entity']}")
+        print(f"Risk Score: {r['risk_score']}")
+        print(f"Risk Level: {r['risk_level']}")
+        print("Detections:")
+        for d in r["detections"]:
+            print(f" - {d['type']} (+{d['score']})")
         print("-" * 40)
 
 

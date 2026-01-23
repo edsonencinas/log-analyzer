@@ -1,0 +1,34 @@
+[
+    {
+        "type": "Brute Force Attack",
+        "ip": "192.168.1.50",
+        "attempts": 5,
+        "time_window": "0:02:00"
+    },
+    {
+        "type": "Account Lockout Risk",
+        "user": "admin",
+        "attempts": 5,
+        "time_window": "0:05:00"
+    },
+    {
+        "type": "Possible Credential Compromise",
+        "user": "admin",
+        "failed_attempts": 3,
+        "success_time": "1900-01-21T12:03:30",
+        "time_window": "0:10:00"
+    },
+    {
+        "type": "Credential Compromise (IP Change)",
+        "user": "admin",
+        "failed_attempts": 3,
+        "failure_ips": [
+            "1.1.1.1",
+            "1.1.1.2",
+            "1.1.1.3"
+        ],
+        "success_ip": "1.1.1.4",
+        "success_time": "1900-01-21T12:03:30",
+        "severity": "HIGH"
+    }
+]
