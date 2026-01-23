@@ -6,6 +6,7 @@ from detectors.ip_change_after_failures import detect_ip_change_after_failures
 from detectors.risk_engine import calculate_risk
 from utils.json_exporter import export_to_json
 from mitre.tagger import tag_with_mitre
+from alerts.alert_manager import AlertManager
 
 
 def read_log(file_path):
@@ -22,6 +23,7 @@ def main():
         if event:
             events.append(event)
 
+    alert_manager = AlertManager()
     export_to_json(events, "output/events.json")
 
     alerts_bruteforce = detect_brute_force(events)
@@ -38,9 +40,13 @@ def main():
     # MITRE tagging
     all_alerts = [tag_with_mitre(alert) for alert in all_alerts]
 
-    export_to_json(all_alerts, "output/alerts.json")
+    filtered_alerts = [
+        alert for alert in all_alerts if alert_manager.should_alert(alert)
+    ]
 
-    risk_results = calculate_risk(all_alerts)
+    export_to_json(filtered_alerts, "output/alerts.json")
+
+    risk_results = calculate_risk(filtered_alerts)
 
     export_to_json(risk_results, "output/risk_summary.json")
 
