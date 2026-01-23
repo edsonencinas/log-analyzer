@@ -3,20 +3,35 @@
         "type": "Brute Force Attack",
         "ip": "192.168.1.50",
         "attempts": 5,
-        "time_window": "0:02:00"
+        "time_window": "0:02:00",
+        "mitre": {
+            "tactic": "Credential Access",
+            "technique": "Brute Force",
+            "technique_id": "T1110"
+        }
     },
     {
         "type": "Account Lockout Risk",
         "user": "admin",
         "attempts": 5,
-        "time_window": "0:05:00"
+        "time_window": "0:05:00",
+        "mitre": {
+            "tactic": "Credential Access",
+            "technique": "Brute Force",
+            "technique_id": "T1110"
+        }
     },
     {
         "type": "Possible Credential Compromise",
         "user": "admin",
         "failed_attempts": 3,
         "success_time": "1900-01-21T12:03:30",
-        "time_window": "0:10:00"
+        "time_window": "0:10:00",
+        "mitre": {
+            "tactic": "Credential Access",
+            "technique": "Valid Accounts",
+            "technique_id": "T1078"
+        }
     },
     {
         "type": "Credential Compromise (IP Change)",
@@ -29,6 +44,11 @@
         ],
         "success_ip": "1.1.1.4",
         "success_time": "1900-01-21T12:03:30",
-        "severity": "HIGH"
+        "severity": "HIGH",
+        "mitre": {
+            "tactic": "Credential Access",
+            "technique": "Valid Accounts",
+            "technique_id": "T1078"
+        }
     }
 ]

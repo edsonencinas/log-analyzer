@@ -5,6 +5,7 @@ from detectors.credential_compromise import detect_credential_compromise
 from detectors.ip_change_after_failures import detect_ip_change_after_failures
 from detectors.risk_engine import calculate_risk
 from utils.json_exporter import export_to_json
+from mitre.tagger import tag_with_mitre
 
 
 def read_log(file_path):
@@ -33,6 +34,9 @@ def main():
     all_alerts.extend(alerts_lockout)
     all_alerts.extend(alerts_compromise)
     all_alerts.extend(alerts_ip_change)
+
+    # MITRE tagging
+    all_alerts = [tag_with_mitre(alert) for alert in all_alerts]
 
     export_to_json(all_alerts, "output/alerts.json")
 
