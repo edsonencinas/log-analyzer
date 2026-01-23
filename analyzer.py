@@ -2,6 +2,7 @@ from parser.auth_parser import parse_auth_log
 from detectors.brute_force import detect_brute_force
 from detectors.account_lockout import detect_account_lockout
 from detectors.credential_compromise import detect_credential_compromise
+from detectors.ip_change_after_failures import detect_ip_change_after_failures
 
 
 def read_log(file_path):
@@ -21,11 +22,13 @@ def main():
     alerts_bruteforce = detect_brute_force(events)
     alerts_lockout = detect_account_lockout(events)
     alerts_compromise = detect_credential_compromise(events)
+    alerts_ip_change = detect_ip_change_after_failures(events)
     # for testing pupose only to be deleted later on ----------------------
     print(alerts_bruteforce)
     print(alerts_lockout)
     print(alerts_compromise)
-
+    print(alerts_ip_change)
+    # ----------------------------------------------------------------------
     for alert in alerts_bruteforce:
         print("ALERT DETECTED")
         print(f"Type: {alert['type']}")
@@ -47,6 +50,16 @@ def main():
         print(f"Failed Attempts Before Success: {alert['failed_attempts']}")
         print(f"Success Time: {alert['success_time']}")
         print("-" * 30)
+
+    for alert in alerts_ip_change:
+        print("ALERT DETECTED")
+        print(f"Type: {alert['type']}")
+        print(f"User: {alert['user']}")
+        print(f"Failed Attempts: {alert['failed_attempts']}")
+        print(f"Failure IPs: {', '.join(alert['failure_ips'])}")
+        print(f"Success IP: {alert['success_ip']}")
+        print(f"Severity: {alert['severity']}")
+        print("-" * 40)
 
 
 if __name__ == "__main__":
