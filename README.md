@@ -135,4 +135,4 @@ Detections:
 
 **Edison Encinas**
 Cybersecurity Enthusiast | Blue Team 
-(Project built for learning, portfolio, and skill demonstration purposes)
+***(Project built for learning, portfolio, and skill demonstration purposes)***
